@@ -2,7 +2,7 @@
 
 use lang\ClassLoader;
 
-module xp-framework/webtest {
+module xp-framework/mocks {
 
   public function initialize() {
     ClassLoader::registerLoader($this->classLoader(), true);
