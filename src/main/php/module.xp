@@ -1,0 +1,10 @@
+<?php namespace unittest\mock;
+
+use lang\ClassLoader;
+
+module xp-framework/webtest {
+
+  public function initialize() {
+    ClassLoader::registerLoader($this->classLoader(), true);
+  }
+}
