@@ -8,6 +8,7 @@
   "require" : {
     "xp-framework/core": "^6.5",
     "xp-framework/unittest": "^6.7",
+    "xp-framework/collections": "^6.5",
     "php" : ">=5.5.0"
   },
   "autoload" : {
