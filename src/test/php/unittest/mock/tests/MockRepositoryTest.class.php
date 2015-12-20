@@ -1,5 +1,11 @@
 <?php namespace unittest\mock\tests;
  
+use unittest\mock\tests\IEmptyInterface;
+use unittest\mock\tests\IComplexInterface;
+use lang\ClassNotFoundException;
+use lang\IllegalArgumentException;
+use unittest\mock\tests\PartiallyImplementedAbstractDummy;
+use lang\IllegalStateException;
 use unittest\TestCase;
 use unittest\mock\MockRepository;
 use lang\reflect\Proxy;
@@ -39,7 +45,7 @@ class MockRepositoryTest extends TestCase {
   #[@test]
   public function canCreateMockForEmptyInterface() {
     $object= $this->fixture->createMock('unittest.mock.tests.IEmptyInterface');
-    $this->assertInstanceOf('unittest.mock.tests.IEmptyInterface', $object);
+    $this->assertInstanceOf(IEmptyInterface::class, $object);
   }
 
   /**
@@ -49,14 +55,14 @@ class MockRepositoryTest extends TestCase {
   #[@test]
   public function canCreateMockForComplexInterface() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
-    $this->assertInstanceOf('unittest.mock.tests.IComplexInterface', $object);
+    $this->assertInstanceOf(IComplexInterface::class, $object);
   }
 
   /**
    * Can create mock for non-empty interface
    *
    */
-  #[@test, @expect('lang.ClassNotFoundException')]
+  #[@test, @expect(ClassNotFoundException::class)]
   public function cannotCreateMockForUnknownTypes() {
     $this->fixture->createMock('foooooo.Unknown');
   }
@@ -65,7 +71,7 @@ class MockRepositoryTest extends TestCase {
    * Can create mock for non-empty interface
    *
    */
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function cannotCreateMockForNonXPClassTypes() {
     $this->fixture->createMock('string');
   }
@@ -191,7 +197,7 @@ class MockRepositoryTest extends TestCase {
   #[@test]
   public function can_createMock_fromAbstractClass() {
     $obj= $this->fixture->createMock('unittest.mock.tests.PartiallyImplementedAbstractDummy', true);
-    $this->assertInstanceOf('unittest.mock.tests.PartiallyImplementedAbstractDummy', $obj);
+    $this->assertInstanceOf(PartiallyImplementedAbstractDummy::class, $obj);
   }
   
   /**
@@ -319,7 +325,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * Unexpected calls should fail, when _verifyMock is called.
    */
-  #[@test, @expect('unittest.mock.ExpectationViolationException')]
+  #[@test, @expect(ExpectationViolationException::class)]
   public function unexpected_calls_should_fail_on_mock_object_verification() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -355,7 +361,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * verifyAll() verifies all mocks of that mockery.
    */
-  #[@test, @expect('unittest.mock.ExpectationViolationException')]
+  #[@test, @expect(ExpectationViolationException::class)]
   public function verfyAll_should_verfiy_all_mocks__negative_case() {
     $object1= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object2= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
@@ -439,7 +445,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function property_behavior_should_throw_exception_if_returns_is_set_before() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -454,7 +460,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function property_behavior_should_throw_exception_if_returns_is_set_afterwards() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -485,7 +491,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect('lang.IllegalStateException')]
+  #[@test, @expect(IllegalStateException::class)]
   public function property_behavior_should_only_be_applicable_to_getters_and_setters() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->foo()->propertyBehavior();

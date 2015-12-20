@@ -1,5 +1,6 @@
 <?php namespace unittest\mock\tests;
 
+use lang\Object;
 use unittest\mock\MockProxy;
 use unittest\mock\MockRepository;
 use lang\Type;
@@ -43,7 +44,7 @@ class MockProxyTest extends \unittest\TestCase {
 
   #[@test]
   public function invokeReturnsObject() {
-    $this->assertInstanceOf('lang.Object', $this->sut->invoke(null, 'foo', null));
+    $this->assertInstanceOf(Object::class, $this->sut->invoke(null, 'foo', null));
   }
 
   #[@test]

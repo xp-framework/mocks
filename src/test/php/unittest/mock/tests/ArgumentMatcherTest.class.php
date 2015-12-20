@@ -47,7 +47,7 @@ class ArgumentMatcherTest extends \unittest\TestCase {
 
   #[@test]
   public function dynamic_with_static_matchEmpty_should_match_empty_string() {
-    $this->assertTrue(Arg::func('matchEmpty', __CLASS__)->matches(''));
+    $this->assertTrue(Arg::func('matchEmpty', self::class)->matches(''));
   }
 
   #[@test]

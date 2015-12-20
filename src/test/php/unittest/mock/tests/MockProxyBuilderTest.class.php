@@ -1,5 +1,7 @@
 <?php namespace unittest\mock\tests;
 
+use lang\IllegalArgumentException;
+use lang\Error;
 use unittest\TestCase;
 use unittest\mock\MockProxyBuilder;
 use util\XPIterator;
@@ -21,7 +23,7 @@ class MockProxyBuilderTest extends TestCase {
    * Setup method 
    */
   public function setUp() {
-    $this->handler= newinstance('lang.reflect.InvocationHandler', [], '{
+    $this->handler= newinstance(InvocationHandler::class, [], '{
       public $invocations= [];
 
       public function invoke($proxy, $method, $args) { 
@@ -63,22 +65,22 @@ class MockProxyBuilderTest extends TestCase {
     );
   }
 
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function nullClassLoader() {
     (new MockProxyBuilder())->createProxyClass(null, [$this->iteratorClass]);
   }
 
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function nullInterfaces() {
     (new MockProxyBuilder())->createProxyClass(\lang\ClassLoader::getDefault(), null);
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function nullClassLoader7() {
     (new MockProxyBuilder())->createProxyClass(null, [$this->iteratorClass]);
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function nullInterfaces7() {
     (new MockProxyBuilder())->createProxyClass(\lang\ClassLoader::getDefault(), null);
   }
@@ -142,7 +144,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertEquals([], $this->handler->invocations['next_0']);
   }
   
-  #[@test, @expect('lang.IllegalArgumentException')]
+  #[@test, @expect(IllegalArgumentException::class)]
   public function cannotCreateProxiesForClasses() {
     $this->proxyInstanceFor([\lang\XPClass::forName('lang.Object')]);
   }

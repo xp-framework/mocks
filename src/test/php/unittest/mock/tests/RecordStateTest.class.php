@@ -1,5 +1,10 @@
 <?php namespace unittest\mock\tests;
  
+use lang\IllegalArgumentException;
+use lang\Error;
+use unittest\mock\ExpectationList;
+use unittest\mock\Expectation;
+use lang\Object;
 use unittest\mock\RecordState;
 use util\collections\HashTable;
 use unittest\actions\RuntimeVersion;
@@ -22,12 +27,12 @@ class RecordStateTest extends \unittest\TestCase {
     $this->sut= new RecordState($this->expectationMap);
   }
     
-  #[@test, @expect('lang.IllegalArgumentException'), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function expectationMapRequiredOnCreate() {
     new RecordState(null);
   }
 
-  #[@test, @expect('lang.Error'), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function expectationMapRequiredOnCreate7() {
     new RecordState(null);
   }
@@ -47,16 +52,16 @@ class RecordStateTest extends \unittest\TestCase {
     $this->sut->handleInvocation('foo', null);
     $this->assertEquals(1, $this->expectationMap->size());
     $expectationList= $this->expectationMap->get('foo');
-    $this->assertInstanceOf('unittest.mock.ExpectationList', $expectationList);
-    $this->assertInstanceOf('unittest.mock.Expectation', $expectationList->getNext([]));
+    $this->assertInstanceOf(ExpectationList::class, $expectationList);
+    $this->assertInstanceOf(Expectation::class, $expectationList->getNext([]));
   }
 
   #[@test]
   public function newExpectationCreatedOnHandleInvocation_twoDifferentMethods() {
     $this->sut->handleInvocation('foo', null);
     $this->sut->handleInvocation('bar', null);
-    $this->assertInstanceOf('unittest.mock.Expectation', $this->expectationMap->get('foo')->getNext([]));
-    $this->assertInstanceOf('unittest.mock.Expectation', $this->expectationMap->get('bar')->getNext([]));
+    $this->assertInstanceOf(Expectation::class, $this->expectationMap->get('foo')->getNext([]));
+    $this->assertInstanceOf(Expectation::class, $this->expectationMap->get('bar')->getNext([]));
   }
 
   #[@test]
@@ -65,9 +70,9 @@ class RecordStateTest extends \unittest\TestCase {
     $this->sut->handleInvocation('foo', null);
     $expectationList= $this->expectationMap->get('foo');
 
-    $this->assertInstanceOf('unittest.mock.ExpectationList', $expectationList);
-    $this->assertInstanceOf('unittest.mock.Expectation', $expectationList->getNext([]));
-    $this->assertInstanceOf('unittest.mock.Expectation', $expectationList->getNext([]));
+    $this->assertInstanceOf(ExpectationList::class, $expectationList);
+    $this->assertInstanceOf(Expectation::class, $expectationList->getNext([]));
+    $this->assertInstanceOf(Expectation::class, $expectationList->getNext([]));
   }
 
   #[@test]
@@ -77,6 +82,6 @@ class RecordStateTest extends \unittest\TestCase {
 
     $expectationList= $this->expectationMap->get('foo');
     $expectedExpectaton= $expectationList->getNext($args);
-    $this->assertInstanceOf('lang.Object', $expectedExpectaton);
+    $this->assertInstanceOf(Object::class, $expectedExpectaton);
   }
 }
