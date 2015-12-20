@@ -174,7 +174,7 @@ class MockProxyBuilderTest extends TestCase {
     $proxyBuilder= new MockProxyBuilder();
     $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('net.xp_framework.unittest.tests.mock.AbstractDummy')
+      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $this->assertEquals('concreteMethod', $proxy->concreteMethod());
@@ -185,7 +185,7 @@ class MockProxyBuilderTest extends TestCase {
     $proxyBuilder= new MockProxyBuilder();
     $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('net.xp_framework.unittest.tests.mock.AbstractDummy')
+      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->abstractMethod();
@@ -198,7 +198,7 @@ class MockProxyBuilderTest extends TestCase {
     $proxyBuilder->setOverwriteExisting(true);
     $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('net.xp_framework.unittest.tests.mock.AbstractDummy')
+      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->concreteMethod();
@@ -211,7 +211,7 @@ class MockProxyBuilderTest extends TestCase {
     $proxyBuilder->setOverwriteExisting(true);
     $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('net.xp_framework.unittest.tests.mock.AbstractDummy')
+      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->equals(new \lang\Object());

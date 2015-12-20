@@ -7,7 +7,7 @@ use lang\ClassLoader;
 /**
  * Convenience class providing common argument matchers.
  *
- * @test  xp://net.xp_framework.unittest.tests.mock.ArgumentMatcherTest
+ * @test  xp://unittest.mock.tests.ArgumentMatcherTest
  */
 class Arg extends \lang\Object {
   private static $any;

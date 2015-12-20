@@ -8,7 +8,7 @@ use lang\ClassLoader;
 /**
  * Class for creating mock/stub instances of arbitrary types
  *
- * @test  xp://net.xp_framework.unittest.tests.mock.MockeryTest
+ * @test  xp://unittest.mock.tests.MockeryTest
  */
 class MockRepository extends \lang\Object {
   private $mocks= [];

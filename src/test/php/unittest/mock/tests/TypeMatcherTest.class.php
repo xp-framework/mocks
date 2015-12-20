@@ -51,7 +51,7 @@ class TypeMatcherTest extends \unittest\TestCase {
   #[@test]
   public function mock_repository_should_work_with() {
     $mockery= new MockRepository();
-    $interface= $mockery->createMock('net.xp_framework.unittest.tests.mock.IComplexInterface');
-    $interface->fooWithTypeHint(\unittest\mock\arguments\Arg::anyOfType('net.xp_framework.unittest.tests.mock.IEmptyInterface'));
+    $interface= $mockery->createMock('unittest.mock.tests.IComplexInterface');
+    $interface->fooWithTypeHint(\unittest\mock\arguments\Arg::anyOfType('unittest.mock.tests.IEmptyInterface'));
   }
 }

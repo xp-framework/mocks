@@ -6,7 +6,7 @@ use util\collections\HashTable;
 /**
  * Record expectations on a mock object.
  *
- * @test  xp://net.xp_framework.unittest.tests.mock.RecordStateTest
+ * @test  xp://unittest.mock.tests.RecordStateTest
  */
 class RecordState extends \lang\Object implements IMockState {
   private $expectationMap = null;

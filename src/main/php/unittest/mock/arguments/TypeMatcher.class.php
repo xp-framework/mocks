@@ -6,7 +6,7 @@ use lang\reflect\InvocationHandler;
 /**
  * Argument matcher based on argument type
  *
- * @test  xp://net.xp_framework.unittest.tests.mock.TypeMatcherTest
+ * @test  xp://unittest.mock.tests.TypeMatcherTest
  */
 class TypeMatcher extends \lang\Object implements IArgumentMatcher, InvocationHandler  {
   private 

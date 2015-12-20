@@ -36,7 +36,7 @@ interface IComplexInterface extends IEmptyInterface {
   /**
    * Foo with type hint
    *
-   * @param   net.xp_framework.unittest.tests.mock.IEmptyInterface $arg
+   * @param   unittest.mock.tests.IEmptyInterface $arg
    */
   public function fooWithTypeHint(IEmptyInterface $arg);
 }

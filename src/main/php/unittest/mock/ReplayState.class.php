@@ -5,7 +5,7 @@ use util\collections\HashTable;
 /**
  * Replaying state.
  *
- * @test  xp://net.xp_framework.unittest.tests.mock.ReplayStateTest
+ * @test  xp://unittest.mock.tests.ReplayStateTest
  */
 class ReplayState extends \lang\Object implements IMockState {
   private
