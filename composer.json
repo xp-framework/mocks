@@ -6,9 +6,9 @@
   "description" : "Mocks for the XP Framework",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "~6.0",
-    "xp-framework/unittest": "dev-master",
-    "php" : ">=5.4.0"
+    "xp-framework/core": "^6.5",
+    "xp-framework/unittest": "^6.7",
+    "php" : ">=5.5.0"
   },
   "autoload" : {
     "files" : ["src/main/php/autoload.php"]
