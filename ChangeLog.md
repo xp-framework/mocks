@@ -3,6 +3,10 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 6.5.1 / 2016-01-23
+
+* Fixed test suite for forward compatibility with XP7 - @thekid
+
 ## 6.5.0 / 2015-12-20
 
 * **Heads up**: Changed minimum XP version to run webtests to XP
