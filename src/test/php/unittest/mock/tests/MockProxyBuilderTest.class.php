@@ -120,11 +120,6 @@ class MockProxyBuilderTest extends TestCase {
 
   #[@test]
   public function iteratorMethods() {
-    $expected= [
-      'hashcode', 'equals', 'getclass', 'tostring',  // lang.Object
-      'hasnext', 'next'                              // util.XPIterator
-    ];
-    
     $class= $this->proxyClassFor([$this->iteratorClass]);
     $this->assertEquals(
       [true, true],
@@ -152,7 +147,7 @@ class MockProxyBuilderTest extends TestCase {
   
   #[@test]
   public function overloadedMethod() {
-    $proxy= $this->proxyInstanceFor([\lang\XPClass::forName('net.xp_framework.unittest.reflection.OverloadedInterface')]);
+    $proxy= $this->proxyInstanceFor([\lang\XPClass::forName('unittest.mock.tests.OverloadedInterface')]);
     $proxy->overloaded('foo');
     $proxy->overloaded('foo', 'bar');
     $this->assertEquals(['foo'], $this->handler->invocations['overloaded_1']);
