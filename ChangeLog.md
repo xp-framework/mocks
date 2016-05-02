@@ -3,6 +3,10 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 6.5.2 / 2016-05-02
+
+* Merged PR #1: Declare static initializer in a MockProxy - @kiesel
+
 ## 6.5.1 / 2016-01-23
 
 * Fixed test suite for forward compatibility with XP7 - @thekid
