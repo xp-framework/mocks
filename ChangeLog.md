@@ -3,6 +3,10 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 6.6.0 / 2016-09-20
+
+* Make compatible w/ newer XP Framework versions - @kiesel, @friebe
+
 ## 6.5.2 / 2016-05-02
 
 * Merged PR #1: Declare static initializer in a MockProxy - @kiesel
