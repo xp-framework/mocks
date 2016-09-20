@@ -3,6 +3,10 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 6.6.1 / 2016-09-20
+
+* Fix build w/ XP 7 - @kiesel
+
 ## 6.6.0 / 2016-09-20
 
 * Make compatible w/ newer XP Framework versions - @kiesel, @friebe
