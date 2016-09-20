@@ -231,11 +231,11 @@ class MockProxyBuilderTest extends TestCase {
 
   #[@test]
   public function namespaced_parameters_handled_correctly() {
-    $class= $this->proxyClassFor([\lang\ClassLoader::defineInterface('net.xp_framework.unittest.test.mock.NSInterface', [], '{
-      public function fixture(\lang\types\Long $param);
+    $class= $this->proxyClassFor([ClassLoader::defineInterface('net.xp_framework.unittest.test.mock.NSInterface', [], '{
+      public function fixture(\lang\Object $param);
     }')]);
     $this->assertEquals(
-      \lang\XPClass::forName('lang.types.Long'),
+      XPClass::forName('lang.Object'),
       $class->getMethod('fixture')->getParameters()[0]->getType()
     );
   }
