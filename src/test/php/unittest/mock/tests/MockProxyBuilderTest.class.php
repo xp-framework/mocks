@@ -1,12 +1,14 @@
 <?php namespace unittest\mock\tests;
 
-use lang\IllegalArgumentException;
+use lang\ClassLoader;
 use lang\Error;
-use unittest\TestCase;
-use unittest\mock\MockProxyBuilder;
-use util\XPIterator;
+use lang\IllegalArgumentException;
 use lang\reflect\InvocationHandler;
+use lang\XPClass;
 use unittest\actions\RuntimeVersion;
+use unittest\mock\MockProxyBuilder;
+use unittest\TestCase;
+use util\XPIterator;
 
 /**
  * Tests the Proxy class
@@ -30,8 +32,8 @@ class MockProxyBuilderTest extends TestCase {
         $this->invocations[$method."_".sizeof($args)]= $args;
       }
     }');
-    $this->iteratorClass= \lang\XPClass::forName('util.XPIterator');
-    $this->observerClass= \lang\XPClass::forName('util.Observer');
+    $this->iteratorClass= XPClass::forName('util.XPIterator');
+    $this->observerClass= XPClass::forName('util.Observer');
   }
 
   /**
@@ -44,7 +46,7 @@ class MockProxyBuilderTest extends TestCase {
    */
   protected function proxyInstanceFor($interfaces) {
     return (new MockProxyBuilder())->createProxyInstance(
-      \lang\ClassLoader::getDefault(),
+      ClassLoader::getDefault(),
       $interfaces, 
       $this->handler
     );
@@ -60,7 +62,7 @@ class MockProxyBuilderTest extends TestCase {
    */
   protected function proxyClassFor($interfaces) {
     return (new MockProxyBuilder())->createProxyClass(
-      \lang\ClassLoader::getDefault(),
+      ClassLoader::getDefault(),
       $interfaces
     );
   }
@@ -72,7 +74,7 @@ class MockProxyBuilderTest extends TestCase {
 
   #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function nullInterfaces() {
-    (new MockProxyBuilder())->createProxyClass(\lang\ClassLoader::getDefault(), null);
+    (new MockProxyBuilder())->createProxyClass(ClassLoader::getDefault(), null);
   }
 
   #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
@@ -82,7 +84,7 @@ class MockProxyBuilderTest extends TestCase {
 
   #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
   public function nullInterfaces7() {
-    (new MockProxyBuilder())->createProxyClass(\lang\ClassLoader::getDefault(), null);
+    (new MockProxyBuilder())->createProxyClass(ClassLoader::getDefault(), null);
   }
 
   #[@test]
@@ -136,18 +138,18 @@ class MockProxyBuilderTest extends TestCase {
   
   #[@test, @expect(IllegalArgumentException::class)]
   public function cannotCreateProxiesForClasses() {
-    $this->proxyInstanceFor([\lang\XPClass::forName('lang.Object')]);
+    $this->proxyInstanceFor([XPClass::forName('lang.Object')]);
   }
   
   #[@test]
   public function allowDoubledInterfaceMethod() {
-    $newIteratorClass= \lang\ClassLoader::defineInterface('util.NewIterator', 'util.XPIterator');
-    $this->proxyInstanceFor([\lang\XPClass::forName('util.XPIterator'), $newIteratorClass]);
+    $newIteratorClass= ClassLoader::defineInterface('util.NewIterator', 'util.XPIterator');
+    $this->proxyInstanceFor([XPClass::forName('util.XPIterator'), $newIteratorClass]);
   }
   
   #[@test]
   public function overloadedMethod() {
-    $proxy= $this->proxyInstanceFor([\lang\XPClass::forName('unittest.mock.tests.OverloadedInterface')]);
+    $proxy= $this->proxyInstanceFor([XPClass::forName('unittest.mock.tests.OverloadedInterface')]);
     $proxy->overloaded('foo');
     $proxy->overloaded('foo', 'bar');
     $this->assertEquals(['foo'], $this->handler->invocations['overloaded_1']);
@@ -167,7 +169,7 @@ class MockProxyBuilderTest extends TestCase {
       }
     }');
 
-    $proxyClass= (new MockProxyBuilder())->createProxyClass(\lang\ClassLoader::getDefault(), [], $staticInited->getClass());
+    $proxyClass= (new MockProxyBuilder())->createProxyClass(ClassLoader::getDefault(), [], $staticInited->getClass());
     $this->assertEquals(1, $proxyClass->newInstance(null)->counter());
   }
 
@@ -175,15 +177,15 @@ class MockProxyBuilderTest extends TestCase {
   public function proxyClass_implements_IMockProxy() {
     $proxy= $this->proxyClassFor([$this->iteratorClass]);
     $interfaces= $proxy->getInterfaces();
-    $this->assertTrue(in_array(\lang\XPClass::forName('unittest.mock.IMockProxy'), $interfaces));
+    $this->assertTrue(in_array(XPClass::forName('unittest.mock.IMockProxy'), $interfaces));
   }
 
   #[@test]
   public function concrete_methods_should_not_be_changed_by_default() {
     $proxyBuilder= new MockProxyBuilder();
-    $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
+    $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
+      XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $this->assertEquals('concreteMethod', $proxy->concreteMethod());
@@ -192,9 +194,9 @@ class MockProxyBuilderTest extends TestCase {
   #[@test]
   public function abstract_methods_should_delegated_to_handler() {
     $proxyBuilder= new MockProxyBuilder();
-    $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
+    $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
+      XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->abstractMethod();
@@ -205,9 +207,9 @@ class MockProxyBuilderTest extends TestCase {
   public function with_overwriteAll_abstract_methods_should_delegated_to_handler() {
     $proxyBuilder= new MockProxyBuilder();
     $proxyBuilder->setOverwriteExisting(true);
-    $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
+    $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
+      XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->concreteMethod();
@@ -218,9 +220,9 @@ class MockProxyBuilderTest extends TestCase {
   public function reserved_methods_should_not_be_overridden() {
     $proxyBuilder= new MockProxyBuilder();
     $proxyBuilder->setOverwriteExisting(true);
-    $class= $proxyBuilder->createProxyClass(\lang\ClassLoader::getDefault(),
+    $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
       [],
-      \lang\XPClass::forName('unittest.mock.tests.AbstractDummy')
+      XPClass::forName('unittest.mock.tests.AbstractDummy')
     );
     $proxy= $class->newInstance($this->handler);
     $proxy->equals(new \lang\Object());
