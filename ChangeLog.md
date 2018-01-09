@@ -5,6 +5,7 @@ Mocks change log
 
 ## 7.0.0 / 2018-01-09
 
+* Fixed PHP 7.2 compatibility - @thekid
 * **Heads up:** Dropped PHP 5.5 support - @thekid
 * Made this library compatible with XP9 - @thekid
 
