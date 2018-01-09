@@ -9,7 +9,7 @@ use lang\ClassLoader;
  *
  * @test  xp://unittest.mock.tests.ArgumentMatcherTest
  */
-class Arg extends \lang\Object {
+class Arg {
   private static $any;
   
   static function __static() {

@@ -3,12 +3,11 @@
 use lang\IllegalArgumentException;
 use util\collections\Vector;
 
-
 /**
  * A stateful list for expectations.
  *
  */
-class ExpectationList extends \lang\Object {
+class ExpectationList {
   private
     $list       = null,
     $called     = null,

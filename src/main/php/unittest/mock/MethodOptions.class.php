@@ -6,7 +6,7 @@
  * Implements a fluent interface for specifying mock expectation.
  *
  */
-class MethodOptions extends \lang\Object implements IMethodOptions {
+class MethodOptions implements IMethodOptions {
   private
     $expectation= null,
     $methodName= null;

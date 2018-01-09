@@ -7,7 +7,7 @@ use util\collections\HashTable;
  *
  * @test  xp://unittest.mock.tests.ReplayStateTest
  */
-class ReplayState extends \lang\Object implements IMockState {
+class ReplayState implements IMockState {
   private
     $unexpectedCalls = null,
     $expectationMap  = null,

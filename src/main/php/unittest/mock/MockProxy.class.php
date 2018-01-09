@@ -8,7 +8,7 @@ use util\collections\HashTable;
  * A mock proxy.
  *
  */
-class MockProxy extends \lang\Object implements InvocationHandler {
+class MockProxy implements InvocationHandler {
   private
     $mockState    = null,
     $expectionMap = null,

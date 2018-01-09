@@ -36,9 +36,9 @@ class MethodOptionsTest extends \unittest\TestCase {
 
   #[@test]
   public function returns_valueSetInExpectation() {
-    $expectation=new \unittest\mock\Expectation('foo');
+    $expectation= new \unittest\mock\Expectation('foo');
     $sut= new MethodOptions($expectation, 'foo');
-    $expected= new \lang\Object();
+    $expected= new Value();
     $sut->returns($expected);
     $this->assertEquals($expected, $expectation->getReturn());
   }

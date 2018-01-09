@@ -220,7 +220,7 @@ class ExpectationTest extends \unittest\TestCase {
     $this->assertTrue($this->sut->doesMatchArgs([null]));
     $this->assertTrue($this->sut->doesMatchArgs(['test']));
     $this->assertTrue($this->sut->doesMatchArgs([42]));
-    $this->assertTrue($this->sut->doesMatchArgs([new \lang\Object()]));
+    $this->assertTrue($this->sut->doesMatchArgs([new Value()]));
   }
 
   /**

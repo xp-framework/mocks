@@ -4,16 +4,10 @@ use lang\IllegalArgumentException;
 use lang\Error;
 use unittest\mock\ExpectationList;
 use unittest\mock\Expectation;
-use lang\Object;
 use unittest\mock\RecordState;
 use util\collections\HashTable;
 use unittest\actions\RuntimeVersion;
 
-/**
- * Testcase for RecordState
- *
- * @see   xp://unittest.mock.RecordState
- */
 class RecordStateTest extends \unittest\TestCase {
   private 
     $sut            = null,
@@ -82,6 +76,6 @@ class RecordStateTest extends \unittest\TestCase {
 
     $expectationList= $this->expectationMap->get('foo');
     $expectedExpectaton= $expectationList->getNext($args);
-    $this->assertInstanceOf(Object::class, $expectedExpectaton);
+    $this->assertInstanceOf('unittest.mock.Expectation', $expectedExpectaton);
   }
 }

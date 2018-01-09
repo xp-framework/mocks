@@ -1,6 +1,5 @@
 <?php namespace unittest\mock\tests;
 
-use lang\Object;
 use unittest\mock\MockProxy;
 use unittest\mock\MockRepository;
 use lang\Type;
@@ -13,7 +12,7 @@ use lang\reflect\Proxy;
  * @see    xp://unittest.mock.MockProxy
  */
 class MockProxyTest extends \unittest\TestCase {
-  private $sut=null;
+  private $sut;
 
   /**
    * Creates the fixture;
@@ -44,7 +43,7 @@ class MockProxyTest extends \unittest\TestCase {
 
   #[@test]
   public function invokeReturnsObject() {
-    $this->assertInstanceOf(Object::class, $this->sut->invoke(null, 'foo', null));
+    $this->assertInstanceOf('unittest.mock.MethodOptions', $this->sut->invoke(null, 'foo', null));
   }
 
   #[@test]

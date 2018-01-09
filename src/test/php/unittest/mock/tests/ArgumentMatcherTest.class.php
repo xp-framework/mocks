@@ -32,7 +32,7 @@ class ArgumentMatcherTest extends \unittest\TestCase {
 
   #[@test]
   public function any_should_match_an_object() {
-    $this->assertTrue(Arg::any()->matches(new \lang\Object));
+    $this->assertTrue(Arg::any()->matches(new Value()));
   }
 
   #[@test]
@@ -57,7 +57,7 @@ class ArgumentMatcherTest extends \unittest\TestCase {
 
   #[@test]
   public function dynamic_with_matchEmpty_should_not_match_objects() {
-    $this->assertFalse(Arg::func('matchEmpty', $this)->matches(new \lang\Object()));
+    $this->assertFalse(Arg::func('matchEmpty', $this)->matches(new Value()));
   }
 
   #[@test]
@@ -72,7 +72,7 @@ class ArgumentMatcherTest extends \unittest\TestCase {
 
   #[@test]
   public function typeof_date_should_not_match_objects() {
-    $this->assertFalse(Arg::anyOfType('util.Date')->matches(new \lang\Object()));
+    $this->assertFalse(Arg::anyOfType('util.Date')->matches(new Value()));
   }
 
   #[@test]

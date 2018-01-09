@@ -6,7 +6,7 @@
  * Argument matcher, that uses preg_match for matching.
  *
  */
-class PatternMatcher extends \lang\Object implements IArgumentMatcher {
+class PatternMatcher implements IArgumentMatcher {
   private 
     $pattern= null;
 

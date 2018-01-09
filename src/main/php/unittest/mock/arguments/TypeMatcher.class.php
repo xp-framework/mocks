@@ -1,14 +1,14 @@
 <?php namespace unittest\mock\arguments;
 
 use lang\reflect\InvocationHandler;
-
+use lang\Type;
 
 /**
  * Argument matcher based on argument type
  *
  * @test  xp://unittest.mock.tests.TypeMatcherTest
  */
-class TypeMatcher extends \lang\Object implements IArgumentMatcher, InvocationHandler  {
+class TypeMatcher implements IArgumentMatcher, InvocationHandler {
   private 
     $type,
     $matchNull;
@@ -20,7 +20,7 @@ class TypeMatcher extends \lang\Object implements IArgumentMatcher, InvocationHa
    * @param   bool matchNull default TRUE
    */
   public function __construct($type, $matchNull= true) {
-    $this->type= $type;
+    $this->type= Type::forName($type);
     $this->matchNull= $matchNull;
   }
   
@@ -35,7 +35,7 @@ class TypeMatcher extends \lang\Object implements IArgumentMatcher, InvocationHa
       return true;
     }
     
-    return \xp::typeof($value) == \lang\XPClass::forName($this->type)->getName();
+    return $this->type->equals(typeof($value));
   }
 
   /**

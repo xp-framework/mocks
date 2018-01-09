@@ -8,7 +8,7 @@ use util\collections\HashTable;
  *
  * @test  xp://unittest.mock.tests.RecordStateTest
  */
-class RecordState extends \lang\Object implements IMockState {
+class RecordState implements IMockState {
   private $expectationMap = null;
 
   /**

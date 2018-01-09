@@ -3,7 +3,7 @@
 /**
  * An abstract class for tests
  */
-abstract class PartiallyImplementedAbstractDummy extends \lang\Object implements IComplexInterface {
+abstract class PartiallyImplementedAbstractDummy implements IComplexInterface {
 
   /**
    * Static method

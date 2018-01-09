@@ -114,7 +114,7 @@ class MockRepositoryTest extends TestCase {
   public function canDefineReturnValue() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
-    $return = new \lang\Object();
+    $return = new Value();
     $object->foo()->returns($return);
 
     $object->_replayMock();
@@ -319,7 +319,7 @@ class MockRepositoryTest extends TestCase {
 
     $this->assertEquals($expect, $object->bar(null, null));
     $this->assertEquals($expect, $object->bar(34, 'foo'));
-    $this->assertEquals($expect, $object->bar(23.0, new \lang\Object));
+    $this->assertEquals($expect, $object->bar(23.0, new Value()));
   }
 
   /**

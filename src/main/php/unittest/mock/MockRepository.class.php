@@ -10,15 +10,15 @@ use lang\ClassLoader;
  *
  * @test  xp://unittest.mock.tests.MockeryTest
  */
-class MockRepository extends \lang\Object {
+class MockRepository {
   private $mocks= [];
 
   /**
    * Builds a stub instance for the specified type.
    *
-   * @param   string typeName
-   * @param   boolean overrideAll
-   * @return  lang.Object
+   * @param  string $typeName
+   * @param  bool $overrideAll
+   * @return object
    */
   public function createMock($typeName, $overrideAll= true) {
     $type= Type::forName($typeName);
@@ -41,13 +41,14 @@ class MockRepository extends \lang\Object {
     $this->mocks[]= $mock;
     return $mock;
   }
+
   /**
    * Replays all mocks.
    *
    * @return void
    */
   public function replayAll() {
-    foreach($this->mocks as $mock) {
+    foreach ($this->mocks as $mock) {
       $mock->_replayMock();
     }
   }
@@ -58,7 +59,7 @@ class MockRepository extends \lang\Object {
    * @return void
    */
   public function verifyAll() {
-    foreach($this->mocks as $mock) {
+    foreach ($this->mocks as $mock) {
       $mock->_verifyMock();
     }
   }

@@ -3,7 +3,7 @@
 /**
  * An abstract dummy class for testing.
  */
-abstract class AbstractDummy extends \lang\Object {
+abstract class AbstractDummy {
 
   /**
    * A concrete method

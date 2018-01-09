@@ -6,7 +6,7 @@
  * Trivial argument matcher, that just returns true.
  *
  */
-class AnyMatcher extends \lang\Object implements IArgumentMatcher {
+class AnyMatcher implements IArgumentMatcher {
 
   /**
    * Trivial matches implementations.

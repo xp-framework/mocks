@@ -7,7 +7,7 @@ use lang\reflect\Modifiers;
  * Provides functionallity for creating dynamic proxy
  * classes and instances.
  */
-class MockProxyBuilder extends \lang\Object {   
+class MockProxyBuilder {
   const PREFIX = 'MockProxy·';
 
   private
@@ -55,13 +55,9 @@ class MockProxyBuilder extends \lang\Object {
   public function createProxyClass(\lang\IClassLoader $classloader, array $interfaces, $baseClass= null) {
     $this->added= [];
 
-    if (!$baseClass) {
-      $baseClass= \lang\XPClass::forName('lang.Object');
-    }
-
     // Check if class is already in cache
     $key= $this->buildCacheId($baseClass, $interfaces);
-    if (null !== ($cached=$this->tryGetFromCache($key))) {
+    if (null !== ($cached= $this->tryGetFromCache($key))) {
       return $cached;
     }
 
@@ -73,7 +69,9 @@ class MockProxyBuilder extends \lang\Object {
     $bytes.= $this->generatePreamble();
 
     // Generate code for (abstract) class methods (if any)
-    $bytes.= $this->generateBaseClassMethods($baseClass);
+    if ($baseClass) {
+      $bytes.= $this->generateBaseClassMethods($baseClass);
+    }
 
     // Generate code for interface methods
     for ($j= 0; $j < sizeof($interfaces); $j++) {
@@ -102,10 +100,11 @@ class MockProxyBuilder extends \lang\Object {
    * @return string 
    */
   private function generateHead($baseClass, $interfaces) {
+
     // Create proxy class' name, using a unique identifier and a prefix
     $name= $this->getProxyName();
     \xp::$cn[$name]= $name;
-    $bytes= 'class '.$name.' extends '.$baseClass->literal().' implements \unittest\mock\IMockProxy, ';
+    $bytes= 'class '.$name.($baseClass ? ' extends '.$baseClass->literal() : '').' implements \unittest\mock\IMockProxy, ';
 
     for ($j= 0; $j < sizeof($interfaces); $j++) {
       $bytes.= $interfaces[$j]->literal().', ';
@@ -131,11 +130,7 @@ class MockProxyBuilder extends \lang\Object {
    * @return  lang.XPClass
    */
   private function tryGetFromCache($key) {
-    if (isset(self::$cache[$key])) {
-      return self::$cache[$key];
-    }
-    
-    return null;
+    return isset(self::$cache[$key]) ? self::$cache[$key] : null;
   }
   
   /**
@@ -146,7 +141,7 @@ class MockProxyBuilder extends \lang\Object {
    * @return  string
    */
   private function buildCacheId($baseClass, $interfaces) {
-    $key= $this->classLoader->hashCode().':'.$baseClass->getName().';';
+    $key= $this->classLoader->hashCode().($baseClass ? ':'.$baseClass->getName() : '').';';
     $key.= implode(';', array_map(function($i) { return $i->getName(); }, $interfaces));
     $key.= $this->overwriteExisting?'override':'';
 
@@ -210,12 +205,17 @@ class MockProxyBuilder extends \lang\Object {
    * @param lang.XPClass baseClass
    */
   private function generateBaseClassMethods($baseClass) {
-    $bytes= '';
+    $bytes= 'static function __static() {}';
 
-    $bytes.= 'static function __static() {}';
-
-    $reservedMethods= \lang\XPClass::forName('lang.Generic')->getMethods();
-    $reservedMethodNames= array_map(function($i) { return $i->getName(); }, $reservedMethods);
+    // XP8 (has base class) vs. XP9 (baseless)
+    if (class_exists(\lang\Generic::class)) {
+      $reservedMethodNames= array_map(
+        function($i) { return $i->getName(); },
+        \lang\XPClass::forName('lang.Generic')->getMethods()
+      );
+    } else {
+      $reservedMethodNames= [];
+    }
     
     foreach ($baseClass->getMethods() as $m) {
 
@@ -299,11 +299,10 @@ class MockProxyBuilder extends \lang\Object {
     $dyn= \lang\DynamicClassLoader::instanceFor(__METHOD__);
     try {
       $dyn->setClassBytes($this->getProxyName(), $bytes);
-      $class= $dyn->loadClass($this->getProxyName());
+      return $dyn->loadClass($this->getProxyName());
     } catch (\lang\FormatException $e) {
       throw new \lang\IllegalArgumentException($e->getMessage());
     }
-    return $class;
   }
   
   /**

@@ -6,7 +6,7 @@ use util\Objects;
  * Expectation to a method call.
  *
  */
-class Expectation extends \lang\Object {
+class Expectation {
   private $methodName           = '';
   private $return               = null;
   private $repeat               = -1;

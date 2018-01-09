@@ -3,7 +3,7 @@
 /**
  * Argument matcher that uses a user function for matching.
  */
-class DynamicMatcher extends \lang\Object implements IArgumentMatcher {
+class DynamicMatcher implements IArgumentMatcher {
   private $invokeable;
 
   /**
