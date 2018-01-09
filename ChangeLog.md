@@ -3,6 +3,11 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 7.0.0 / 2018-01-09
+
+* **Heads up:** Dropped PHP 5.5 support - @thekid
+* Made this library compatible with XP9 - @thekid
+
 ## 6.6.1 / 2016-09-20
 
 * Fix build w/ XP 7 - @kiesel
