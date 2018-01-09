@@ -150,7 +150,7 @@ class Expectation {
    * @param   var[] args
    */
   public function setArguments($args) {
-    $this->args= $args;
+    $this->args= (array)$args;
   }
 
   /**
@@ -161,8 +161,10 @@ class Expectation {
    * @return  bool
    */
   public function doesMatchArgs($args) {
-    if (sizeof($this->args) != sizeof($args)) return false;
-    for ($i= 0; $i < sizeof($args); ++$i) {
+    $s= sizeof((array)$args);
+    if (sizeof($this->args) !== $s) return false;
+
+    for ($i= 0; $i < $s; ++$i) {
       if (!$this->doesMatchArg($i, $args[$i])) return false;
     }
     return true;
