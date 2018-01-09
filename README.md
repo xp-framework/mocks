@@ -20,7 +20,7 @@ interface Context {
   public function hasPermission($name);
 }
 
-class UserService extends \lang\Object {
+class UserService {
   private $context;
 
   public function __construct(Context $context) {
