@@ -205,10 +205,10 @@ class Expectation {
       $this->methodName,
       sizeof($this->args),
       $this->repeat === -1 ? '**' : '* '.$this->repeat,
-      \xp::stringOf($this->args, '  '),
-      \xp::stringOf($this->return, '  '),
-      \xp::stringOf($this->exception, '  '),
-      \xp::stringOf($this->isInPropertyBehavior),
+      Objects::stringOf($this->args, '  '),
+      Objects::stringOf($this->return, '  '),
+      Objects::stringOf($this->exception, '  '),
+      Objects::stringOf($this->isInPropertyBehavior),
       $this->actualCalls
     );
   }
