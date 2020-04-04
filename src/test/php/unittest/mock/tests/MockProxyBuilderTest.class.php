@@ -3,13 +3,14 @@
 use lang\ClassLoader;
 use lang\Error;
 use lang\IllegalArgumentException;
-use lang\reflect\InvocationHandler;
 use lang\XPClass;
-use unittest\actions\RuntimeVersion;
-use unittest\mock\MockProxyBuilder;
+use lang\reflect\InvocationHandler;
 use unittest\TestCase;
-use util\XPIterator;
+use unittest\actions\RuntimeVersion;
 use unittest\actions\VerifyThat;
+use unittest\mock\MockProxyBuilder;
+use util\Objects;
+use util\XPIterator;
 
 class MockProxyBuilderTest extends TestCase {
   public
@@ -61,6 +62,20 @@ class MockProxyBuilderTest extends TestCase {
     );
   }
 
+  /**
+   * Assertion helper
+   *
+   * @param  var[] $array
+   * @param  var $value
+   * @throws unittest.AssertionFailedError
+   */
+  protected function assertContains($array, $value) {
+    foreach ($array as $element) {
+      if (Objects::equal($element, $value)) return;
+    }
+    $this->fail('Value not contained', $value, $array);
+  }
+
   #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
   public function nullClassLoader() {
     (new MockProxyBuilder())->createProxyClass(null, [$this->iteratorClass]);
@@ -102,7 +117,7 @@ class MockProxyBuilderTest extends TestCase {
     $class= $this->proxyClassFor([$this->iteratorClass]);
     $interfaces= $class->getInterfaces();
     $this->assertEquals(2 + class_exists(\lang\Generic::class), sizeof($interfaces));
-    $this->assertTrue(in_array($this->iteratorClass, $interfaces));
+    $this->assertContains($interfaces, $this->iteratorClass);
   }
 
   #[@test]
@@ -110,8 +125,8 @@ class MockProxyBuilderTest extends TestCase {
     $class= $this->proxyClassFor([$this->iteratorClass, $this->observerClass]);
     $interfaces= $class->getInterfaces();
     $this->assertEquals(3 + class_exists(\lang\Generic::class), sizeof($interfaces));
-    $this->assertTrue(in_array($this->iteratorClass, $interfaces));
-    $this->assertTrue(in_array($this->observerClass, $interfaces));
+    $this->assertContains($interfaces, $this->iteratorClass);
+    $this->assertContains($interfaces, $this->observerClass);
   }
 
   #[@test]
@@ -170,8 +185,7 @@ class MockProxyBuilderTest extends TestCase {
   #[@test]
   public function proxyClass_implements_IMockProxy() {
     $proxy= $this->proxyClassFor([$this->iteratorClass]);
-    $interfaces= $proxy->getInterfaces();
-    $this->assertTrue(in_array(XPClass::forName('unittest.mock.IMockProxy'), $interfaces));
+    $this->assertContains($proxy->getInterfaces(), XPClass::forName('unittest.mock.IMockProxy'));
   }
 
   #[@test]
