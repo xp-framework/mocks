@@ -224,7 +224,7 @@ class MockProxyBuilder {
         
       // Check for already declared methods, do not redeclare them
       // implement abstract methods
-      if ($this->overwriteExisting || ($m->getModifiers() & 2) == 2) {
+      if ($this->overwriteExisting || ($m->getModifiers() & MODIFIER_ABSTRACT) === MODIFIER_ABSTRACT) {
         if (isset($this->added[$m->getName()])) continue;
         $this->added[$m->getName()]= true;
         $bytes.= $this->generateMethod($m);
