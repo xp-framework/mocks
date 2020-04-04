@@ -3,6 +3,10 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 7.0.1 / 2020-04-04
+
+* Made compatible with XP 10 - @thekid
+
 ## 7.0.0 / 2018-01-09
 
 * Fixed PHP 7.2 compatibility - @thekid
