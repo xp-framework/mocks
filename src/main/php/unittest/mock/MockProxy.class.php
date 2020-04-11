@@ -1,7 +1,6 @@
 <?php namespace unittest\mock;
 
-use lang\reflect\InvocationHandler;
-use lang\reflect\Proxy;
+use lang\reflect\{InvocationHandler, Proxy};
 use util\collections\HashTable;
 
 /**

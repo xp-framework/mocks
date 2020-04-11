@@ -1,8 +1,8 @@
 <?php namespace unittest\mock\tests;
 
-use unittest\mock\arguments\TypeMatcher;
-use unittest\mock\MockRepository;
 use lang\Type;
+use unittest\mock\MockRepository;
+use unittest\mock\arguments\TypeMatcher;
 use util\Date;
 
 class TypeMatcherTest extends \unittest\TestCase {

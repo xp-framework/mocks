@@ -1,7 +1,6 @@
 <?php namespace unittest\mock\tests;
  
-use lang\IllegalArgumentException;
-use lang\IllegalStateException;
+use lang\{IllegalArgumentException, IllegalStateException};
 use unittest\mock\MethodOptions;
 
 /**

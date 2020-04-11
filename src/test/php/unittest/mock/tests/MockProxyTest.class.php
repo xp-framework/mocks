@@ -1,9 +1,8 @@
 <?php namespace unittest\mock\tests;
 
-use unittest\mock\MockProxy;
-use unittest\mock\MockRepository;
 use lang\Type;
 use lang\reflect\Proxy;
+use unittest\mock\{MockProxy, MockRepository};
 
 /**
  * A proxy derivitive which implements additional mock behaviour definition

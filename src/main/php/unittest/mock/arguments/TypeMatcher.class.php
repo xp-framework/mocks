@@ -1,7 +1,7 @@
 <?php namespace unittest\mock\arguments;
 
-use lang\reflect\InvocationHandler;
 use lang\Type;
+use lang\reflect\InvocationHandler;
 
 /**
  * Argument matcher based on argument type

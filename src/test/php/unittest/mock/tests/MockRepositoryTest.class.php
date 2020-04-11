@@ -1,16 +1,11 @@
 <?php namespace unittest\mock\tests;
  
-use unittest\mock\tests\IEmptyInterface;
-use unittest\mock\tests\IComplexInterface;
-use lang\ClassNotFoundException;
-use lang\IllegalArgumentException;
-use unittest\mock\tests\PartiallyImplementedAbstractDummy;
-use lang\IllegalStateException;
-use unittest\TestCase;
-use unittest\mock\MockRepository;
+use lang\{ClassNotFoundException, IllegalArgumentException, IllegalStateException};
 use lang\reflect\Proxy;
-use unittest\mock\ExpectationViolationException;
+use unittest\TestCase;
+use unittest\mock\{ExpectationViolationException, MockRepository};
 use unittest\mock\arguments\Arg;
+use unittest\mock\tests\{IComplexInterface, IEmptyInterface, PartiallyImplementedAbstractDummy};
 
 
 /**

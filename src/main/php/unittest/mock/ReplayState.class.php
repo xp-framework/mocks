@@ -131,4 +131,3 @@ class ReplayState implements IMockState {
     return ($prefix == 'get' || $prefix == 'set') && in_array($suffix, $this->properties->keys());
   }
 }
-

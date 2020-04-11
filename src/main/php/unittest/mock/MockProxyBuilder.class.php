@@ -8,7 +8,7 @@ use lang\reflect\Modifiers;
  * classes and instances.
  */
 class MockProxyBuilder {
-  const PREFIX = 'MockProxy·';
+  const PREFIX = "MockProxy\xb7";
 
   private
     $classLoader       = null,

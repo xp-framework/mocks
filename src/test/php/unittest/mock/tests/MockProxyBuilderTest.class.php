@@ -1,16 +1,11 @@
 <?php namespace unittest\mock\tests;
 
-use lang\ClassLoader;
-use lang\Error;
-use lang\IllegalArgumentException;
-use lang\XPClass;
+use lang\{ClassLoader, Error, IllegalArgumentException, XPClass};
 use lang\reflect\InvocationHandler;
 use unittest\TestCase;
-use unittest\actions\RuntimeVersion;
-use unittest\actions\VerifyThat;
+use unittest\actions\{RuntimeVersion, VerifyThat};
 use unittest\mock\MockProxyBuilder;
-use util\Objects;
-use util\XPIterator;
+use util\{Objects, XPIterator};
 
 class MockProxyBuilderTest extends TestCase {
   public

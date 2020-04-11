@@ -1,8 +1,7 @@
 <?php namespace unittest\mock\arguments;
 
+use lang\{ClassLoader, XPClass};
 use unittest\mock\MockProxyBuilder;
-use lang\XPClass;
-use lang\ClassLoader;
 
 /**
  * Convenience class providing common argument matchers.

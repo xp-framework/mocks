@@ -1,10 +1,8 @@
 <?php namespace unittest\mock\tests;
 
-use lang\IllegalArgumentException;
-use lang\Error;
-use unittest\mock\ExpectationList;
-use unittest\mock\Expectation;
+use lang\{Error, IllegalArgumentException};
 use unittest\actions\RuntimeVersion;
+use unittest\mock\{Expectation, ExpectationList};
 
 /**
  * Test cases for the ExpectationList class

@@ -1,9 +1,6 @@
 <?php namespace unittest\mock;
 
-use lang\Type;
-use lang\XPClass;
-use lang\IllegalArgumentException;
-use lang\ClassLoader;
+use lang\{ClassLoader, IllegalArgumentException, Type, XPClass};
 
 /**
  * Class for creating mock/stub instances of arbitrary types

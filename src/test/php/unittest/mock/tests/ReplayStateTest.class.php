@@ -1,12 +1,9 @@
 <?php namespace unittest\mock\tests;
  
-use lang\IllegalArgumentException;
-use lang\Error;
-use unittest\mock\ReplayState;
-use unittest\mock\Expectation;
-use unittest\mock\ExpectationList;
-use util\collections\HashTable;
+use lang\{Error, IllegalArgumentException};
 use unittest\actions\RuntimeVersion;
+use unittest\mock\{Expectation, ExpectationList, ReplayState};
+use util\collections\HashTable;
 
 /**
  * Testcase for ReplayState
