@@ -3,6 +3,15 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 8.0.0 / 2020-04-11
+
+* Implemented xp-framework/rfc#334: Drop PHP 5.6:
+  . **Heads up:** Minimum required PHP version now is PHP 7.0.0
+  . Rewrote code base, grouping use statements
+  . Rewrote `isset(X) ? X : default` to `X ?? default`
+  . Converted `newinstance` to anonymous classes
+  (@thekid)
+
 ## 7.0.1 / 2020-04-04
 
 * Made compatible with XP 10 - @thekid
