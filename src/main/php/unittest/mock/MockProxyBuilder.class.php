@@ -1,7 +1,7 @@
 <?php namespace unittest\mock;
 
-use lang\ClassLoader;
 use lang\reflect\Modifiers;
+use lang\{ClassLoader, IClassLoader};
 
 /**
  * Provides functionallity for creating dynamic proxy
@@ -22,14 +22,10 @@ class MockProxyBuilder {
   /**
    * Constructor
    * 
-   * @param   lang.ClassLoader classLoader
+   * @param  lang.ClassLoader $classLoader
    */
   public function  __construct($classLoader= null) {
-    if (null === $classLoader) {
-      $this->classLoader= ClassLoader::getDefault();
-    } else {
-      $this->classLoader= $classLoader;
-    }
+    $this->classLoader= $classLoader ?? ClassLoader::getDefault();
   }
   
   /**
@@ -52,7 +48,7 @@ class MockProxyBuilder {
    * @return  lang.XPClass baseClass
    * @throws  lang.IllegalArgumentException
    */
-  public function createProxyClass(\lang\IClassLoader $classloader, array $interfaces, $baseClass= null) {
+  public function createProxyClass(IClassLoader $classloader, array $interfaces, $baseClass= null) {
     $this->added= [];
 
     // Check if class is already in cache
@@ -130,7 +126,7 @@ class MockProxyBuilder {
    * @return  lang.XPClass
    */
   private function tryGetFromCache($key) {
-    return isset(self::$cache[$key]) ? self::$cache[$key] : null;
+    return self::$cache[$key] ?? null;
   }
   
   /**
