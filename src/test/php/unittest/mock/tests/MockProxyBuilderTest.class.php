@@ -1,7 +1,7 @@
 <?php namespace unittest\mock\tests;
 
-use lang\{ClassLoader, Error, IllegalArgumentException, XPClass};
 use lang\reflect\InvocationHandler;
+use lang\{ClassLoader, Error, IllegalArgumentException, XPClass};
 use unittest\TestCase;
 use unittest\actions\{RuntimeVersion, VerifyThat};
 use unittest\mock\MockProxyBuilder;
@@ -15,13 +15,13 @@ class MockProxyBuilderTest extends TestCase {
 
   /** @return void */
   public function setUp() {
-    $this->handler= newinstance(InvocationHandler::class, [], '{
+    $this->handler= new class() implements InvocationHandler {
       public $invocations= [];
 
       public function invoke($proxy, $method, $args) { 
-        $this->invocations[$method."_".sizeof($args)]= $args;
+        $this->invocations[$method.'_'.sizeof($args)]= $args;
       }
-    }');
+    };
     $this->iteratorClass= XPClass::forName('util.XPIterator');
     $this->observerClass= XPClass::forName('util.Observer');
   }
