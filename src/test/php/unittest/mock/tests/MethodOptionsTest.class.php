@@ -2,6 +2,7 @@
  
 use lang\{IllegalArgumentException, IllegalStateException};
 use unittest\mock\MethodOptions;
+use unittest\{Expect, Test};
 
 /**
  * Tests for the MethodOptions class
@@ -18,22 +19,22 @@ class MethodOptionsTest extends \unittest\TestCase {
     $this->sut= new MethodOptions(new \unittest\mock\Expectation('method'), 'method');
   }
     
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function expectationRequiredOnCreate() {
     new MethodOptions(null, null);
   }
 
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function nameRequiredOnCreate() {
     new MethodOptions(new \unittest\mock\Expectation('method'), null);
   }
   
-  #[@test]
+  #[Test]
   public function canCallReturns() {
     $this->sut->returns(null);
   }
 
-  #[@test]
+  #[Test]
   public function returns_valueSetInExpectation() {
     $expectation= new \unittest\mock\Expectation('foo');
     $sut= new MethodOptions($expectation, 'foo');
@@ -42,7 +43,7 @@ class MethodOptionsTest extends \unittest\TestCase {
     $this->assertEquals($expected, $expectation->getReturn());
   }
 
-  #[@test]
+  #[Test]
   public function setPropertyBehavior_sets_expectation_to_prop_behavior() {
     $expectation=new \unittest\mock\Expectation('setFoo');
     $sut= new MethodOptions($expectation, 'setFoo');
@@ -50,7 +51,7 @@ class MethodOptionsTest extends \unittest\TestCase {
     $this->assertTrue($expectation->isInPropertyBehavior());
   }
   
-  #[@test]
+  #[Test]
   public function throws_sets_the_exception_property_of_the_expectation() {
     $expectation= new \unittest\mock\Expectation('foo');
     $sut= new MethodOptions($expectation, 'foo');
@@ -59,7 +60,7 @@ class MethodOptionsTest extends \unittest\TestCase {
     $this->assertEquals($expected, $expectation->getException());
   }
   
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function setPropertyBehavior_throws_an_exception_if_no_setter_or_getter() {
     $expectation= new \unittest\mock\Expectation('blabla');
     $sut= new MethodOptions($expectation, 'blabla');

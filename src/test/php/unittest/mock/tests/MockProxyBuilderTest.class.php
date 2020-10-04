@@ -2,9 +2,8 @@
 
 use lang\reflect\InvocationHandler;
 use lang\{ClassLoader, Error, IllegalArgumentException, XPClass};
-use unittest\TestCase;
-use unittest\actions\{RuntimeVersion, VerifyThat};
 use unittest\mock\MockProxyBuilder;
+use unittest\{Expect, Test, TestCase};
 use util\{Objects, XPIterator};
 
 class MockProxyBuilderTest extends TestCase {
@@ -71,33 +70,23 @@ class MockProxyBuilderTest extends TestCase {
     $this->fail('Value not contained', $value, $array);
   }
 
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function nullClassLoader() {
     (new MockProxyBuilder())->createProxyClass(null, [$this->iteratorClass]);
   }
 
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function nullInterfaces() {
     (new MockProxyBuilder())->createProxyClass(ClassLoader::getDefault(), null);
   }
 
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function nullClassLoader7() {
-    (new MockProxyBuilder())->createProxyClass(null, [$this->iteratorClass]);
-  }
-
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function nullInterfaces7() {
-    (new MockProxyBuilder())->createProxyClass(ClassLoader::getDefault(), null);
-  }
-
-  #[@test]
+  #[Test]
   public function proxyClassNamesGetPrefixed() {
     $class= $this->proxyClassFor([$this->iteratorClass]);
     $this->assertEquals(MockProxyBuilder::PREFIX, substr($class->getName(), 0, strlen(MockProxyBuilder::PREFIX)));
   }
 
-  #[@test]
+  #[Test]
   public function classesEqualForSameInterfaceList() {
     $c1= $this->proxyClassFor([$this->iteratorClass]);
     $c2= $this->proxyClassFor([$this->iteratorClass]);
@@ -107,7 +96,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertNotEquals($c1, $c3);
   }
 
-  #[@test]
+  #[Test]
   public function iteratorInterfaceIsImplemented() {
     $class= $this->proxyClassFor([$this->iteratorClass]);
     $interfaces= $class->getInterfaces();
@@ -115,7 +104,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertContains($interfaces, $this->iteratorClass);
   }
 
-  #[@test]
+  #[Test]
   public function allInterfacesAreImplemented() {
     $class= $this->proxyClassFor([$this->iteratorClass, $this->observerClass]);
     $interfaces= $class->getInterfaces();
@@ -124,7 +113,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertContains($interfaces, $this->observerClass);
   }
 
-  #[@test]
+  #[Test]
   public function iteratorMethods() {
     $class= $this->proxyClassFor([$this->iteratorClass]);
     $this->assertEquals(
@@ -133,25 +122,25 @@ class MockProxyBuilderTest extends TestCase {
     );
   }
 
-  #[@test]
+  #[Test]
   public function iteratorNextInvoked() {
     $proxy= $this->proxyInstanceFor([$this->iteratorClass]);
     $proxy->next();
     $this->assertEquals([], $this->handler->invocations['next_0']);
   }
   
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function cannotCreateProxiesForClasses() {
     $this->proxyInstanceFor([new XPClass(Value::class)]);
   }
   
-  #[@test]
+  #[Test]
   public function allowDoubledInterfaceMethod() {
     $newIteratorClass= ClassLoader::defineInterface('util.NewIterator', 'util.XPIterator');
     $this->proxyInstanceFor([XPClass::forName('util.XPIterator'), $newIteratorClass]);
   }
   
-  #[@test]
+  #[Test]
   public function overloadedMethod() {
     $proxy= $this->proxyInstanceFor([XPClass::forName('unittest.mock.tests.OverloadedInterface')]);
     $proxy->overloaded('foo');
@@ -160,7 +149,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertEquals(['foo', 'bar'], $this->handler->invocations['overloaded_2']);
   }
 
-  #[@test]
+  #[Test]
   public function static_initializer_gets_overwritten() {
     $staticInited= newinstance(Value::class, [], '{
       private static $counter= 0;
@@ -177,13 +166,13 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertEquals(1, $proxyClass->newInstance(null)->counter());
   }
 
-  #[@test]
+  #[Test]
   public function proxyClass_implements_IMockProxy() {
     $proxy= $this->proxyClassFor([$this->iteratorClass]);
     $this->assertContains($proxy->getInterfaces(), XPClass::forName('unittest.mock.IMockProxy'));
   }
 
-  #[@test]
+  #[Test]
   public function concrete_methods_should_not_be_changed_by_default() {
     $proxyBuilder= new MockProxyBuilder();
     $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
@@ -194,7 +183,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertEquals('concreteMethod', $proxy->concreteMethod());
   }
 
-  #[@test]
+  #[Test]
   public function abstract_methods_should_delegated_to_handler() {
     $proxyBuilder= new MockProxyBuilder();
     $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
@@ -206,7 +195,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertInstanceOf('var[]', $this->handler->invocations['abstractMethod_0']);
   }
 
-  #[@test]
+  #[Test]
   public function with_overwriteAll_abstract_methods_should_delegated_to_handler() {
     $proxyBuilder= new MockProxyBuilder();
     $proxyBuilder->setOverwriteExisting(true);
@@ -219,20 +208,7 @@ class MockProxyBuilderTest extends TestCase {
     $this->assertInstanceOf('var[]', $this->handler->invocations['concreteMethod_0']);
   }
 
-  #[@test, @action(new VerifyThat(function() { return class_exists(\lang\Generic::class); }))]
-  public function reserved_methods_should_not_be_overridden() {
-    $proxyBuilder= new MockProxyBuilder();
-    $proxyBuilder->setOverwriteExisting(true);
-    $class= $proxyBuilder->createProxyClass(ClassLoader::getDefault(),
-      [],
-      XPClass::forName('unittest.mock.tests.AbstractDummy')
-    );
-    $proxy= $class->newInstance($this->handler);
-    $proxy->equals(new Value());
-    $this->assertFalse(isset($this->handler->invocations['equals_1']));
-  }
-
-  #[@test]
+  #[Test]
   public function namespaced_parameters_handled_correctly() {
     $class= $this->proxyClassFor([ClassLoader::defineInterface('net.xp_framework.unittest.test.mock.NSInterface', [], '{
       public function fixture(\util\Date $param);

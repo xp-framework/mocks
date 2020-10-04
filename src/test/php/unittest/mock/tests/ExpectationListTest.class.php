@@ -1,15 +1,15 @@
 <?php namespace unittest\mock\tests;
 
 use lang\{Error, IllegalArgumentException};
-use unittest\actions\RuntimeVersion;
 use unittest\mock\{Expectation, ExpectationList};
+use unittest\{Expect, Test, TestCase};
 
 /**
  * Test cases for the ExpectationList class
  *
  * @see   xp://unittest.mock.ExpectationList
  */
-class ExpectationListTest extends \unittest\TestCase {
+class ExpectationListTest extends TestCase {
   private $sut= null;
 
   /**
@@ -19,34 +19,34 @@ class ExpectationListTest extends \unittest\TestCase {
     $this->sut= new ExpectationList();
   }
     
-  #[@test]
+  #[Test]
   public function canCreate() {
     new ExpectationList();
   }
 
-  #[@test]
+  #[Test]
   public function canCallGetNext() {
     $this->sut->getNext([]);
   }
   
-  #[@test]
+  #[Test]
   public function getNext_returnNullByDefault() {
     $this->assertNull($this->sut->getNext([]));
   }
   
-  #[@test]
+  #[Test]
   public function canAddExpectation() {
     $this->sut->add(new Expectation('method'));
   }
   
-  #[@test]
+  #[Test]
   public function getNextReturnsAddedExpectation() {
     $expect= new Expectation('method');
     $this->sut->add($expect);    
     $this->assertEquals($expect, $this->sut->getNext([]));
   }
   
-  #[@test]
+  #[Test]
   public function getNextReturns_should_return_last_expectation_over_and_over() {
     $expect= new Expectation('method');
     $this->sut->add($expect);
@@ -55,27 +55,7 @@ class ExpectationListTest extends \unittest\TestCase {
     $this->assertEquals($expect, $this->sut->getNext([]));
   }
   
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
-  public function cannotAddNull() {
-    $this->sut->add(null);
-  }
-  
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
-  public function cannotAddObjects() {
-    $this->sut->add(new \lang\Object());
-  }
-
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function cannotAddNull7() {
-    $this->sut->add(null);
-  }
-  
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
-  public function cannotAddObjects7() {
-    $this->sut->add(new \lang\Object());
-  }
-
-  #[@test]
+  #[Test]
   public function getNext_SameExpectationTwice_whenRepeatIs2() {
     $expect= new Expectation('method');
     $expect->setRepeat(2);
@@ -85,7 +65,7 @@ class ExpectationListTest extends \unittest\TestCase {
     $this->assertNull($this->sut->getNext([]));
   }
 
-  #[@test]
+  #[Test]
   public function should_provide_access_to_left_expectations() {
     $expect= new Expectation('method');
     $this->sut->add($expect);
@@ -94,7 +74,7 @@ class ExpectationListTest extends \unittest\TestCase {
     $this->assertEquals($expect, $list[0]);
   }
 
-  #[@test]
+  #[Test]
   public function should_provide_access_to_used_expectations() {
     $expect= new Expectation('method');
     $this->sut->add($expect);
@@ -104,7 +84,7 @@ class ExpectationListTest extends \unittest\TestCase {
     $this->assertEquals($expect, $list[0]);
   }
 
-  #[@test]
+  #[Test]
   public function expectation_should_be_moved_to_calledList_after_usage() {
     $expect= new Expectation('method');
     $this->sut->add($expect);

@@ -1,5 +1,6 @@
 <?php namespace unittest\mock\tests;
 
+use unittest\Test;
 use unittest\mock\Expectation;
 use unittest\mock\arguments\Arg;
 
@@ -24,7 +25,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Can create.
    *
    */
-  #[@test]
+  #[Test]
   public function canCreate() {
     new Expectation('method');
   }
@@ -33,7 +34,7 @@ class ExpectationTest extends \unittest\TestCase {
    * By default the return value is NULL
    *
    */
-  #[@test]
+  #[Test]
   public function returnValue_isNull_byDefault() {
     $this->assertNull($this->sut->getReturn());
   }
@@ -42,7 +43,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The return value can be set
    *
    */
-  #[@test]
+  #[Test]
   public function returnValue_canSetGet() {
     $this->sut->setReturn('foo');
     $this->assertEquals('foo', $this->sut->getReturn());
@@ -52,7 +53,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The repeat count is 0 by default
    *
    */
-  #[@test]
+  #[Test]
   public function repeat_isMinus1_byDefault() {
     $this->assertEquals(-1, $this->sut->getRepeat());
   }
@@ -61,7 +62,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The repeat count can be set
    *
    */
-  #[@test]
+  #[Test]
   public function repeat_canSetGet() {
     $this->sut->setRepeat(5);
     $this->assertEquals(5, $this->sut->getRepeat());
@@ -71,7 +72,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The actual call count is 0 by default
    *
    */
-  #[@test]
+  #[Test]
   public function actualCalls_is0_byDefault() {
     $this->assertEquals(0, $this->sut->getActualCalls());
   }
@@ -80,7 +81,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The repeat count can be set
    *
    */
-  #[@test]
+  #[Test]
   public function incActualCalls_increasesBy1() {
     $this->sut->incActualCalls();
     $this->assertEquals(1, $this->sut->getActualCalls());
@@ -90,7 +91,7 @@ class ExpectationTest extends \unittest\TestCase {
    * CanRepeat is TRUE by default
    *
    */
-  #[@test]
+  #[Test]
   public function canRepeat_isTrueOnce_ByDefault() {
     $this->sut->setRepeat(1);
     $this->assertTrue($this->sut->canRepeat());
@@ -103,7 +104,7 @@ class ExpectationTest extends \unittest\TestCase {
    * even after incActualCalls
    *
    */
-  #[@test]
+  #[Test]
   public function canRepeat_isTrue_withRepeatMinus1() {
     $this->sut->setRepeat(-1);
 
@@ -121,7 +122,7 @@ class ExpectationTest extends \unittest\TestCase {
    * CanRepeat with repeat == 1 returns 2 times TRUE and then FALSE
    *
    */
-  #[@test]
+  #[Test]
   public function canRepeat_withNumericRepeat2_TrueTwice() {
     $this->sut->setRepeat(2);
     $this->assertTrue($this->sut->canRepeat());
@@ -135,7 +136,7 @@ class ExpectationTest extends \unittest\TestCase {
    * set/getArguments
    *
    */
-  #[@test]
+  #[Test]
   public function setArguments_should_set_arguments() {
     $expected= ['foo', 'bar', 5];
     $this->sut->setArguments($expected);
@@ -147,7 +148,7 @@ class ExpectationTest extends \unittest\TestCase {
    * doesMatchArgs exists
    *
    */
-  #[@test]
+  #[Test]
   public function cancall_doesMatchArgs() {
     $this->sut->doesMatchArgs([]);
   }
@@ -156,7 +157,7 @@ class ExpectationTest extends \unittest\TestCase {
    * The number of arguments is relevant for matching.
    *
    */
-  #[@test]
+  #[Test]
   public function argument_count_should_be_considered_when_matching_args() {
     $this->sut->setArguments([1, 2]);
     $this->assertTrue($this->sut->doesMatchArgs([1, 2]));
@@ -169,7 +170,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Types are relevant for matching arguments.
    *
    */
-  #[@test]
+  #[Test]
   public function doesMatch_should_return_false_on_differentTypes() {
     $this->sut->setArguments(['1']);
 
@@ -180,7 +181,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Equality is of course relevant for argument matching.
    *
    */
-  #[@test]
+  #[Test]
   public function doesMatch_should_return_true_if_args_are_equal() {
     $this->sut->setArguments(['1', 2, 3.0, '4']);
 
@@ -191,7 +192,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Unequal arguments should not match.
    *
    */
-  #[@test]
+  #[Test]
   public function doesMatch_should_return_false_if_args_are_unequal() {
     $this->sut->setArguments(['1', 2, 3.0, '4']);
 
@@ -202,7 +203,7 @@ class ExpectationTest extends \unittest\TestCase {
    * NULL is also a valid argument.
    *
    */
-  #[@test]
+  #[Test]
   public function doesMatch_should_work_with_null() {
     $this->sut->setArguments([null, null]);
 
@@ -213,7 +214,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Arg::any() should work for any arguments
    *
    */
-  #[@test]
+  #[Test]
   public function doesMatch_should_work_with_generic_AnyMatcher() {
     $this->sut->setArguments([Arg::any()]);
 
@@ -227,7 +228,7 @@ class ExpectationTest extends \unittest\TestCase {
    * Sets the exception that is to be thrown on execution
    *
    */
-  #[@test]
+  #[Test]
   public function setExceptions_should_set_exception() {
     $expected= new \lang\XPException('foo');
     $this->sut->setException($expected);

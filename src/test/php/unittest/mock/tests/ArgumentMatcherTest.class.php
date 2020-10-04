@@ -1,5 +1,6 @@
 <?php namespace unittest\mock\tests;
 
+use unittest\Test;
 use unittest\mock\arguments\Arg;
 use util\Date;
 
@@ -20,62 +21,62 @@ class ArgumentMatcherTest extends \unittest\TestCase {
     return '' === $arg;
   }
 
-  #[@test]
+  #[Test]
   public function any_should_match_integers() {
     $this->assertTrue(Arg::any()->matches(1));
   }
 
-  #[@test]
+  #[Test]
   public function any_should_match_strings() {
     $this->assertTrue(Arg::any()->matches(''));
   }
 
-  #[@test]
+  #[Test]
   public function any_should_match_an_object() {
     $this->assertTrue(Arg::any()->matches(new Value()));
   }
 
-  #[@test]
+  #[Test]
   public function any_should_match_null() {
     $this->assertTrue(Arg::any()->matches(null));
   }
 
-  #[@test]
+  #[Test]
   public function dynamic_with_this_matchEmpty_should_match_empty_string() {
     $this->assertTrue(Arg::func('matchEmpty', $this)->matches(''));
   }
 
-  #[@test]
+  #[Test]
   public function dynamic_with_static_matchEmpty_should_match_empty_string() {
     $this->assertTrue(Arg::func('matchEmpty', self::class)->matches(''));
   }
 
-  #[@test]
+  #[Test]
   public function dynamic_with_matchEmpty_should_not_match_null() {
     $this->assertFalse(Arg::func('matchEmpty', $this)->matches(null));
   }
 
-  #[@test]
+  #[Test]
   public function dynamic_with_matchEmpty_should_not_match_objects() {
     $this->assertFalse(Arg::func('matchEmpty', $this)->matches(new Value()));
   }
 
-  #[@test]
+  #[Test]
   public function typeof_date_should_match_date_instance() {
     $this->assertTrue(Arg::anyOfType('util.Date')->matches(Date::now()));
   }
 
-  #[@test]
+  #[Test]
   public function typeof_date_should_match_null() {
     $this->assertTrue(Arg::anyOfType('util.Date')->matches(null));
   }
 
-  #[@test]
+  #[Test]
   public function typeof_date_should_not_match_objects() {
     $this->assertFalse(Arg::anyOfType('util.Date')->matches(new Value()));
   }
 
-  #[@test]
+  #[Test]
   public function typeof_date_should_not_match_primitives() {
     $this->assertFalse(Arg::anyOfType('util.Date')->matches(1));
   }

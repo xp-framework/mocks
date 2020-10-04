@@ -2,6 +2,7 @@
 
 use lang\Type;
 use lang\reflect\Proxy;
+use unittest\Test;
 use unittest\mock\{MockProxy, MockRepository};
 
 /**
@@ -20,47 +21,47 @@ class MockProxyTest extends \unittest\TestCase {
     $this->sut= new MockProxy();
   }
 
-  #[@test]
+  #[Test]
   public function canCreate() {
     new MockProxy(new MockRepository());
   }
   
-  #[@test]
+  #[Test]
   public function canCallIsRecording() {
     $this->sut->isRecording();
   }
 
-  #[@test]
+  #[Test]
   public function mockIsInRecordingStateInitially() {
     $this->assertTrue($this->sut->isRecording());
   }
 
-  #[@test]
+  #[Test]
   public function canCallInvoke() {
     $this->sut->invoke(null, 'foo', null);
   }
 
-  #[@test]
+  #[Test]
   public function invokeReturnsObject() {
     $this->assertInstanceOf('unittest.mock.MethodOptions', $this->sut->invoke(null, 'foo', null));
   }
 
-  #[@test]
+  #[Test]
   public function canCallReplay() {
     $this->sut->replay();
   }
 
-  #[@test]
+  #[Test]
   public function canCallIsReplaying() {
     $this->sut->isReplaying();
   }
 
-  #[@test]
+  #[Test]
   public function notInReplayStateInitially() {
     $this->assertFalse($this->sut->isReplaying());
   }
   
-  #[@test]
+  #[Test]
   public function stateChangesAfterReplayCall() {
     $this->assertTrue($this->sut->isRecording());
     $this->assertFalse($this->sut->isReplaying());
@@ -69,7 +70,7 @@ class MockProxyTest extends \unittest\TestCase {
     $this->assertTrue($this->sut->isReplaying());
   }
 
-  #[@test]
+  #[Test]
   public function callingReplayTwice_stateShouldNotChange() {
     $this->sut->invoke(null, 'foo', null)->returns('foo1')->repeat(1);
     $this->sut->invoke(null, 'foo', null)->returns('foo2')->repeat(1);

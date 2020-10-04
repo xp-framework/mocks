@@ -1,11 +1,11 @@
 <?php namespace unittest\mock\tests;
  
-use lang\{ClassNotFoundException, IllegalArgumentException, IllegalStateException};
 use lang\reflect\Proxy;
-use unittest\TestCase;
-use unittest\mock\{ExpectationViolationException, MockRepository};
+use lang\{ClassNotFoundException, IllegalArgumentException, IllegalStateException};
 use unittest\mock\arguments\Arg;
 use unittest\mock\tests\{IComplexInterface, IEmptyInterface, PartiallyImplementedAbstractDummy};
+use unittest\mock\{ExpectationViolationException, MockRepository};
+use unittest\{Expect, Test, TestCase};
 
 
 /**
@@ -28,7 +28,7 @@ class MockRepositoryTest extends TestCase {
    * Can create.
    *
    */
-  #[@test]
+  #[Test]
   public function canCreate() {
     new MockRepository();
   }
@@ -37,7 +37,7 @@ class MockRepositoryTest extends TestCase {
    * Can create mock for empty interface
    *
    */
-  #[@test]
+  #[Test]
   public function canCreateMockForEmptyInterface() {
     $object= $this->fixture->createMock('unittest.mock.tests.IEmptyInterface');
     $this->assertInstanceOf(IEmptyInterface::class, $object);
@@ -47,7 +47,7 @@ class MockRepositoryTest extends TestCase {
    * Can create mock for non-empty interface
    *
    */
-  #[@test]
+  #[Test]
   public function canCreateMockForComplexInterface() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $this->assertInstanceOf(IComplexInterface::class, $object);
@@ -57,7 +57,7 @@ class MockRepositoryTest extends TestCase {
    * Can create mock for non-empty interface
    *
    */
-  #[@test, @expect(ClassNotFoundException::class)]
+  #[Test, Expect(ClassNotFoundException::class)]
   public function cannotCreateMockForUnknownTypes() {
     $this->fixture->createMock('foooooo.Unknown');
   }
@@ -66,7 +66,7 @@ class MockRepositoryTest extends TestCase {
    * Can create mock for non-empty interface
    *
    */
-  #[@test, @expect(IllegalArgumentException::class)]
+  #[Test, Expect(IllegalArgumentException::class)]
   public function cannotCreateMockForNonXPClassTypes() {
     $this->fixture->createMock('string');
   }
@@ -75,7 +75,7 @@ class MockRepositoryTest extends TestCase {
    * Can call replay
    *
    */
-  #[@test]
+  #[Test]
   public function canCallReplay() {
     $mock= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $mock->_replayMock();
@@ -85,7 +85,7 @@ class MockRepositoryTest extends TestCase {
    * Can call interface methods
    *
    */
-  #[@test]
+  #[Test]
   public function canCallInterfaceMethods() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->foo();
@@ -95,7 +95,7 @@ class MockRepositoryTest extends TestCase {
    * Can call returns() on mocked object
    *
    */
-  #[@test]
+  #[Test]
   public function canCallReturnsFluently() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->foo()->returns(null);
@@ -105,7 +105,7 @@ class MockRepositoryTest extends TestCase {
    * Defined value returned in replay mode
    *
    */
-  #[@test]
+  #[Test]
   public function canDefineReturnValue() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -119,7 +119,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * If no expectations are left, NULL is returned
    */
-  #[@test]
+  #[Test]
   public function missingExpectationLeadsToNull() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -133,7 +133,7 @@ class MockRepositoryTest extends TestCase {
    * If no expectations are left, NULL is returned
    *
    */
-  #[@test]
+  #[Test]
   public function recordedReturnsAreInCorrectOrder() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -158,7 +158,7 @@ class MockRepositoryTest extends TestCase {
    * Mockery has replayAll method                       
    *
    */
-  #[@test]
+  #[Test]
   public function canCallReplayAll() {
     $this->fixture->replayAll();
   }
@@ -168,7 +168,7 @@ class MockRepositoryTest extends TestCase {
    * replayAll is called.
    *
    */
-  #[@test]
+  #[Test]
   public function replayAllSetsAllMocksInReplayMode() {
     $object1=$this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object2=$this->fixture->createMock('unittest.mock.tests.IComplexInterface');
@@ -189,7 +189,7 @@ class MockRepositoryTest extends TestCase {
    * 'Partial' mocks are also possible.
    *
    */
-  #[@test]
+  #[Test]
   public function can_createMock_fromAbstractClass() {
     $obj= $this->fixture->createMock('unittest.mock.tests.PartiallyImplementedAbstractDummy', true);
     $this->assertInstanceOf(PartiallyImplementedAbstractDummy::class, $obj);
@@ -199,7 +199,7 @@ class MockRepositoryTest extends TestCase {
    * Abstract methods should be implemented (and delegated to the handler).
    *
    */
-  #[@test]
+  #[Test]
   public function abstractMethodAreMocked() {
     $obj= $this->fixture->createMock('unittest.mock.tests.PartiallyImplementedAbstractDummy');
 
@@ -220,7 +220,7 @@ class MockRepositoryTest extends TestCase {
    * overrideAll is unset.
    *
    */
-  #[@test]
+  #[Test]
   public function concreteMethodsNotMocked() {
     $obj= $this->fixture->createMock('unittest.mock.tests.PartiallyImplementedAbstractDummy', false);
 
@@ -231,7 +231,7 @@ class MockRepositoryTest extends TestCase {
    * Tests mocking concrete classes
    *
    */
-  #[@test]
+  #[Test]
   public function concreteClassesMocked_whenSpecifiedSo() {
     $obj= $this->fixture->createMock(
       'unittest.mock.tests.PartiallyImplementedAbstractDummy',
@@ -249,7 +249,7 @@ class MockRepositoryTest extends TestCase {
    * Can define return object for two calls with repeat
    *
    */
-  #[@test]
+  #[Test]
   public function canCallRepeat() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -267,7 +267,7 @@ class MockRepositoryTest extends TestCase {
    * Can define return object for two calls with repeat
    *
    */
-  #[@test]
+  #[Test]
   public function canCallRepeatAny() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -287,7 +287,7 @@ class MockRepositoryTest extends TestCase {
    * When recording calls, the arguments should be considered.
    *
    */
-  #[@test]
+  #[Test]
   public function method_arguments_should_be_considered_in_recodring() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -304,7 +304,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * It should be possible to define expectations for any arguments.
    */
-  #[@test]
+  #[Test]
   public function arg_any_accepts_all_arguments() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -320,7 +320,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * Unexpected calls should fail, when _verifyMock is called.
    */
-  #[@test, @expect(ExpectationViolationException::class)]
+  #[Test, Expect(ExpectationViolationException::class)]
   public function unexpected_calls_should_fail_on_mock_object_verification() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -333,7 +333,7 @@ class MockRepositoryTest extends TestCase {
    /**
    * verifyAll() verifies all mocks of that mockery.
    */
-  #[@test]
+  #[Test]
   public function verfyAll_should_verfiy_all_mocks__positive_case() {
     $object1= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object2= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
@@ -356,7 +356,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * verifyAll() verifies all mocks of that mockery.
    */
-  #[@test, @expect(ExpectationViolationException::class)]
+  #[Test, Expect(ExpectationViolationException::class)]
   public function verfyAll_should_verfiy_all_mocks__negative_case() {
     $object1= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object2= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
@@ -379,7 +379,7 @@ class MockRepositoryTest extends TestCase {
   /**
    * It should be possible to define an exception that is thrown on a call
    */
-  #[@test]
+  #[Test]
   public function canCall_throws_on_mock_object() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->foo()->throws(new \lang\XPException('foo'));
@@ -389,7 +389,7 @@ class MockRepositoryTest extends TestCase {
    * When a expectation with 'throws' is defined on a mock, then this exception
    * should be thrown when the expected method is called in replay mode.
    */
-  #[@test]
+  #[Test]
   public function mock_with_throws_should_throw_the_specified_exception() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $expected= new \lang\IllegalStateException('foo');
@@ -409,7 +409,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test]
+  #[Test]
   public function property_behavior_get_methods_should_return_null_by_default() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     
@@ -423,7 +423,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test]
+  #[Test]
   public function property_behavior_get_methods_should_return_value_set_by_setter() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->getFoo()->propertyBehavior();
@@ -440,7 +440,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function property_behavior_should_throw_exception_if_returns_is_set_before() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -455,7 +455,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function property_behavior_should_throw_exception_if_returns_is_set_afterwards() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
 
@@ -470,7 +470,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test]
+  #[Test]
   public function property_behavior_return_value_should_be_predefinable() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->getFoo()->propertyBehavior()->returns(10);
@@ -486,7 +486,7 @@ class MockRepositoryTest extends TestCase {
    * Test
    *
    */
-  #[@test, @expect(IllegalStateException::class)]
+  #[Test, Expect(IllegalStateException::class)]
   public function property_behavior_should_only_be_applicable_to_getters_and_setters() {
     $object= $this->fixture->createMock('unittest.mock.tests.IComplexInterface');
     $object->foo()->propertyBehavior();

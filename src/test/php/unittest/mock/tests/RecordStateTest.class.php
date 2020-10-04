@@ -1,8 +1,8 @@
 <?php namespace unittest\mock\tests;
  
 use lang\{Error, IllegalArgumentException};
-use unittest\actions\RuntimeVersion;
 use unittest\mock\{Expectation, ExpectationList, RecordState};
+use unittest\{Expect, Test};
 use util\collections\HashTable;
 
 class RecordStateTest extends \unittest\TestCase {
@@ -18,27 +18,22 @@ class RecordStateTest extends \unittest\TestCase {
     $this->sut= new RecordState($this->expectationMap);
   }
     
-  #[@test, @expect(IllegalArgumentException::class), @action(new RuntimeVersion('<7.0.0-dev'))]
-  public function expectationMapRequiredOnCreate() {
-    new RecordState(null);
-  }
-
-  #[@test, @expect(Error::class), @action(new RuntimeVersion('>=7.0.0-dev'))]
+  #[Test, Expect(Error::class)]
   public function expectationMapRequiredOnCreate7() {
     new RecordState(null);
   }
 
-  #[@test]
+  #[Test]
   public function canCreate() {
     new RecordState(new HashTable());
   }
 
-  #[@test]
+  #[Test]
   public function canHandleInvocation() {
     $this->sut->handleInvocation('methodName', null);
   }
 
-  #[@test]
+  #[Test]
   public function newExpectationCreatedOnHandleInvocation() {
     $this->sut->handleInvocation('foo', null);
     $this->assertEquals(1, $this->expectationMap->size());
@@ -47,7 +42,7 @@ class RecordStateTest extends \unittest\TestCase {
     $this->assertInstanceOf(Expectation::class, $expectationList->getNext([]));
   }
 
-  #[@test]
+  #[Test]
   public function newExpectationCreatedOnHandleInvocation_twoDifferentMethods() {
     $this->sut->handleInvocation('foo', null);
     $this->sut->handleInvocation('bar', null);
@@ -55,7 +50,7 @@ class RecordStateTest extends \unittest\TestCase {
     $this->assertInstanceOf(Expectation::class, $this->expectationMap->get('bar')->getNext([]));
   }
 
-  #[@test]
+  #[Test]
   public function newExpectationCreatedOn_EACH_HandleInvocationCall() {
     $this->sut->handleInvocation('foo', null);
     $this->sut->handleInvocation('foo', null);
@@ -66,7 +61,7 @@ class RecordStateTest extends \unittest\TestCase {
     $this->assertInstanceOf(Expectation::class, $expectationList->getNext([]));
   }
 
-  #[@test]
+  #[Test]
   public function method_call_should_set_arguments() {
     $args= ['1', 2, 3.0];
     $this->sut->handleInvocation('foo', $args);
