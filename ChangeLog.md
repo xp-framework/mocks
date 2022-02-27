@@ -3,6 +3,11 @@ Mocks change log
 
 ## ?.?.? / ????-??-??
 
+## 8.0.1 / 2022-02-27
+
+* Made library compatible with XP 11, `xp-framework/collections` 10.0.0
+  (@thekid)
+
 ## 8.0.0 / 2020-04-11
 
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
