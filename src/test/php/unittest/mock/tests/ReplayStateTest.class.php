@@ -42,7 +42,7 @@ class ReplayStateTest extends TestCase {
   
   #[Test]
   public function canHandleInvocation() {
-    $this->sut->handleInvocation(null, null);
+    $this->sut->handleInvocation('', []);
   }
 
   #[Test]
